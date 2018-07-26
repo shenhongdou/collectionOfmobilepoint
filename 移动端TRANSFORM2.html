@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,user-scalable=no" > 
+	<title>移动端TRANSFORM2</title>
+	<style>
+		body,
+		html {
+			height:100%;
+			overflow: hidden;
+		}
+		.list {
+			transition: 1s;
+		}
+	</style>
+</head>
+<body>
+	<div id="wrap">
+		<ul class="list">
+
+		</ul>
+		
+	</div>
+
+	<script type="text/javascript">
+
+	
+		document.addEventListener("touchstart", ev=>ev.preventDefault(), { passive: false });
+
+		let wrap = document.querySelector("#wrap"),
+			list = document.querySelector(".list")
+			li = "",
+			touchScreenY = 0,
+			disY = 0,
+			lastY = 0,
+			nowY = 0;
+		
+
+		for(let i=0; i<100; i++){
+			li += `<li>这是第${i}个li`;
+		}
+
+		list.innerHTML = li;
+
+		list.addEventListener("touchstart",(ev)=>{
+
+			touchScreenY = ev.changedTouches[0].pageY;
+			lastY = nowY;
+			
+		});
+
+		list.addEventListener("touchmove",(ev)=>{
+			disY = ev.changedTouches[0].pageY - touchScreenY ;
+			nowY = lastY + disY;
+
+			list.style.webkitTransform = list.style.transform = `translateY(${nowY}px)`;
+			
+		})
+
+		
+		
+		
+	</script>
+</body>
+</html>

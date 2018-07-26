@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,user-scalable=no" />
+	<title>移动端点透</title>
+	<style type="text/css">
+		
+		#wrap1, #wrap2 {
+			position: relative;
+			
+			width:100px;
+			height:100px;
+			margin-top:50px;
+		}
+
+		a, p {
+			position: absolute;
+		}
+
+		#div1, #div2 {
+			width:100px;
+			height:100px;
+			background-color:pink;
+			position:absolute;
+			opacity: 0.5;
+		}
+	</style>
+</head>
+<body>
+
+	<div id="wrap1">
+		<a href="https://www.baidu.com">aaaaaaaaa</a>
+		<div id="div1"></div>
+	</div>
+
+	<div id="wrap2">
+		<p>ppppppp</p>
+		<div id="div2"></div>
+	</div>
+
+	<script type="text/javascript">
+	/*
+		移动端点透：当上层元素发生点击在300ms内消失或隐藏时，如果下层元素有点击（焦点）特性或者下层元素绑定了click事件，点击事件会被传到下层元素身上触发下层元素的点击特性。
+
+		解决办法：
+		1.下层元素不用具有点击（焦点）特性的元素，且不绑定click事件
+		2.阻止pc端的默认事件
+		
+	*/
+		const div1=document.querySelector("#div1");
+		const div2=document.querySelector("#div2");
+		const p=document.querySelectorAll("p");
+		const a=document.querySelectorAll("a");
+		
+		div1.addEventListener("touchstart",()=>div1.style.display="none");
+		div2.addEventListener("touchstart",()=>div2.style.display="none");
+
+		p[0].addEventListener("touchstart",()=>window.location.href="https://www.miaov.com"); //不会点透
+		//p[0].addEventListener("click",()=>window.location.href="https:www.miaov.com"); //会点透
+
+		a[0].addEventListener("touchstart",(ev)=>ev.stopPropagation()); //阻止冒泡
+
+		document.addEventListener("touchstart", ev=>ev.preventDefault(), { passive: false });
+
+	/*
+		由于浏览器必须要在执行事件处理函数之后，才能知道有没有调用过 preventDefault()，这就导致了浏览器不能及时响应滚动，略有延迟。于是从chrome56开始，在 window、document和body上注册的touchstart和touchmove事件处理函数，会默认为是passive:true。
+
+		因此，在window，document和body上的touchstart和touchmove事件处理函数中调用ev.preventDefault()，会被chrome56以后版本的浏览器略掉，并不会阻止默认行为。
+	*/
+		
+
+		
+
+	
+
+	</script>
+</body>		
+</html>

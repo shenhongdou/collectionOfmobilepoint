@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,user-scalable=no" >
+	<title>弹性盒模型应用</title>
+	<script type="text/javascript">
+		let html = document.documentElement;
+		let htmlWidth = html.getBoundingClientRect().width;
+		html.style.fontSize = htmlWidth / 15 +"px";
+		
+	</script>
+	<style>
+		
+		body {
+			margin:0;
+		}
+
+		#pic {
+			padding:.5rem;
+		}
+		
+		.row {
+			display: flex;
+
+		}
+		.row a {
+			text-decoration: none;	
+			-webkit-tap-highlight-color:rgba(255,0,0,0);
+			width:7.5rem;
+			font-size:.44rem;
+			color:#848484;
+			text-align: center;
+			display: block;
+			line-height: 1.04rem;
+
+		}
+
+		.row a:before {
+			content:"";
+			display:block;
+			
+			width:1.72rem;
+			height:1.7rem;
+			margin:0 auto;
+			background-image: url("icon.png");
+			background-size: 9rem 3.6rem;
+		}
+
+		#pic .row:nth-of-type(1) a:nth-of-type(1):before{
+			background-position: 0 0;
+		}
+		#pic .row:nth-of-type(1) a:nth-of-type(2):before{
+			background-position: 1.8rem 0;
+		}
+		#pic .row:nth-of-type(1) a:nth-of-type(3):before{
+			background-position: 3.6rem 0;
+		}
+		#pic .row:nth-of-type(1) a:nth-of-type(4):before{
+			background-position: 5.4rem 0;
+		}
+		#pic .row:nth-of-type(1) a:nth-of-type(5):before{
+			background-position: 7.2rem 0;
+		}
+			
+		#pic .row:nth-of-type(2) a:nth-of-type(1):before{
+			background-position: 0 1.8rem;
+		}
+		#pic .row:nth-of-type(2) a:nth-of-type(2):before{
+			background-position: 1.8rem 1.8rem;
+		}
+		#pic .row:nth-of-type(2) a:nth-of-type(3):before{
+			background-position: 3.6rem 1.8rem;
+		}
+		#pic .row:nth-of-type(2) a:nth-of-type(4):before{
+			background-position: 5.4rem 1.8rem;
+		}
+		#pic .row:nth-of-type(2) a:nth-of-type(5):before{
+			background-position: 7.2rem 1.8rem;
+		}
+
+		
+	</style>
+</head>
+<body>
+	<div id="pic">
+		<div class="row">
+			<a href="javascript:;">天猫</a>
+			<a href="javascript:;">聚划算</a>
+			<a href="javascript:;">天猫国际</a>
+			<a href="javascript:;">外卖</a>
+			<a href="javascript:;">天猫超市</a>
+		</div>
+		<div class="row">
+			<a href="javascript:;">充值中心</a>
+			<a href="javascript:;">飞猪旅行</a>
+			<a href="javascript:;">领金币</a>
+			<a href="javascript:;">到家</a>
+			<a href="javascript:;">分类</a>
+		</div>
+	</div>
+	
+
+
+</body>
+</html>

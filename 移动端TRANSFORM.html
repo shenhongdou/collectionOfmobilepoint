@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,user-scalable=no" > 
+	<title>移动端TRANSFORM</title>
+	<style>
+		#wrap {
+			width:100px;
+			height:100px;
+			padding:100px;
+			border:1px solid #000;
+			position: relative;
+		}
+		.div {
+			width:100px;
+			height:100px;
+			background-color: pink;
+			
+			position:absolute;
+		}
+		.div1 {
+			background-color: yellow;
+			
+		}
+
+		.div:nth-of-type(9) {
+			background-color: red;
+		}
+	</style>
+</head>
+<body>
+	<div id="wrap">
+		<div class="div"></div>
+		<div class="div"></div>
+		<div class="div"></div>
+		<div class="div"></div>
+		
+
+		<div class="div div1"></div>
+		<div class="div div1"></div>
+		<div class="div div1"></div>
+		<div class="div div1"></div>
+
+		<div class="div"></div>
+		
+	</div>
+
+	<script type="text/javascript">
+
+		let wrap = document.querySelector("#wrap");
+		
+		let div = document.querySelectorAll(".div");
+
+		wrap.addEventListener("touchstart",()=>{
+
+			let translateArr = [[-100,-100],[100,-100],[-100,100],[100,100],[0,-100],[-100,0],[100,0],[0,100]];
+
+			for(let i=0;i<translateArr.length;i++){
+				div[i].style.webkitTransform = div[i].style.transform = `translate( ${translateArr[i][0]}px, ${translateArr[i][1]}px )`;
+				div[i].style.transition = .5 * (i+1) + "s";
+			}
+			
+
+			div[8].style.webkitTransform = div[8].style.transform = "rotate(720deg)";
+			div[8].style.transition = "4s";
+
+
+			
+			
+		})
+
+
+		
+		
+	</script>
+</body>
+</html>

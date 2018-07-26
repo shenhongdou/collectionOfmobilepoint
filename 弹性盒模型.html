@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,user-scalable=no" >
+	<title>弹性盒模型</title>
+	<style>
+		body {
+			margin:0;
+		}
+		#box {
+			height:300px;
+			border:1px solid #000;
+			/*display: -webkit-box;*/
+			display: flex;
+			/*flex-direction: row;*/
+			/*-webkit-box-orient:orient;*/
+			/*flex-direction:column;*/
+			/*flex-direction:row-reverse;*/
+			/*-webkit-box-direction:reverse;*/
+			/*justify-content:space-between;*/
+			/*-webkit-box-pack:justify;*/
+			/*align-items: flex-start;*/
+			/*-webkit-box-align:end;*/
+			/*-webkit-box-flex：1；*/
+
+		}
+
+		.div {
+			width:50px;
+			height:50px;
+			background-color: pink;
+			font-size:40px;
+			text-align: center;
+			line-height: 50px;
+			color:#fff;
+			/*flex-grow: 1;*/
+		}
+
+		.div:nth-of-type(1){
+			flex-grow:1;
+		}
+		.div:nth-of-type(2){
+			flex-grow:2;
+		}
+		.div:nth-of-type(3){
+			flex-grow:3;
+		}
+		.div:nth-of-type(4){
+			flex-grow:4;
+		}
+
+		
+		
+
+	</style>
+</head>
+<body>
+	<div id="box">
+		<div class="div">1</div>
+		<div class="div">2</div>
+		<div class="div">3</div>
+		<div class="div">4</div>
+	</div>
+	
+
+<script>
+	/*
+
+	弹性盒模型：
+	老版
+	display:-webkit-box;
+	-webkit-box-orient:horizontal/vertical;//元素排列方向
+	-webkit-box-direction:normal/reverse;//元素排列顺序
+	-webkit-box-pack:start/end/center/justify;//主轴方向富裕空间管理
+	-webkit-box-align:start/end/center;//侧轴方向富裕空间管理
+
+	-webkit-box-flex:1;//盒子的弹性空间
+	-webkit-box-ordinal-group:1;//元素顺序，最小值可接受0
+
+
+
+
+	新版
+	display:flex;
+	flex-direction:row/column;
+	flex-direction:row-reverse/column-reverse;
+	justify-content:flex-start/flex-end/center/space-between/space-around;//主轴方向富裕空间管理
+	align-items:flex-start/flex-end/center/baseline;//侧轴方向富裕空间管理
+	
+	flex-grow:1;//盒子的弹性空间
+	order:1;//元素顺序，最小值默认处理为1
+
+
+
+
+
+
+
+	*/
+	document.addEventListener("touchstart",ev=>{
+		ev.preventDefault();
+	},{passive:false});
+
+	let box = document.querySelector("#box");
+	let div = document.querySelector("#div");
+	
+	
+	
+</script>
+</body>
+</html>

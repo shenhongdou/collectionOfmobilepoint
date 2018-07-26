@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,user-scalable=no" >
+	<title>移动端transform</title>
+	<style>
+		.box {
+			width:150px;
+			height:150px;
+			background-color: pink;
+			margin:150px auto;
+		}
+	</style>
+</head>
+<body>
+	<div class="box"></div>
+	<div class="box"></div>
+
+	<script>
+		document.addEventListener("touchstart",ev=>{
+			ev.preventDefault();
+		},{passive:false});
+
+		let box = document.querySelectorAll(".box");
+		let a = 1,
+			b = 0,
+			c = 0,
+			d = 1,
+			e = 0,
+			f = 0;
+
+			
+		
+		// box.style.WebkitTransform = box.style.transform = `matrix(${a},${b},${c},${d},${e},${f})`;
+
+		// box[0].style.WebkitTransform = box[0].style.transform = "translate(100px,100px) scale(0.5)";
+		// //matrix(0.5,0,0,0.5,0,0)==>matrix(0.5,0,0,0.5,100,100)
+		// box[1].style.WebkitTransform = box[1].style.transform = "scale(0.5) translate(100px,100px)";
+		// //matrix(1,0,0,1,100,100)==>matrix(0.5,0,0,0.5,50,50)
+
+		box[0].style.WebkitTransform = box[0].style.transform = "rotate(30deg)";
+
+		//c = Math.tan( 30 * Math.PI / 180 )
+
+		//b = Math.tan( 30 * Math.PI / 180 )
+
+		a = Math.cos( 30/180 *Math.PI );
+		b = Math.sin( 30/180 *Math.PI );
+		c = - Math.sin( 30/180 *Math.PI );
+		d =Math.cos( 30/180 *Math.PI );
+		box[1].style.WebkitTransform = box[1].style.transform = `matrix(${a},${b},${c},${d},${e},${f})`;
+		console.log(getComputedStyle(box[0])["transform"]);
+		console.log(getComputedStyle(box[1])["transform"]);
+
+		/*
+			matrix(1,0,0,1,0,0) 默认
+			位移： 
+				x轴位移 = e + x;
+				y轴位移 = f + x;
+
+
+			缩放：
+				x轴缩放
+				a = a*x;
+				c = c*x;
+				e = e*x;
+
+				y轴缩放
+				b = b*x;
+				d = d*x;
+				f = f*x;
+
+			斜切：
+				角度转弧度 = deg * Math.PI / 180;
+				正弦 Math.sin
+				余弦 Math.cos
+				正切 Math.tan
+
+				x轴斜切
+				c = Math.tan( deg * Math.PI / 180 );
+
+				y轴斜切
+				b = Math.tan( deg * Math.PI / 180 );
+
+			旋转：
+			a = Math.cos( deg/180 *Math.PI );
+			b = Math.sin( deg/180 *Math.PI );
+			c = - Math.sin( deg/180 *Math.PI );
+			d = Math.cos( deg/180 *Math.PI );
+
+
+		*/
+
+
+	</script>
+</body>
+</html>

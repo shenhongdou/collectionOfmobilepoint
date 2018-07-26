@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,user-scalable=no">
+	<title>无缝滚动</title>
+	<script type="text/javascript">
+		let html=document.documentElement;
+		html.style.fontSize = html.clientWidth/15 + "px";
+		document.addEventListener("touchstart",(ev)=>{
+			ev.preventDefault();
+		},{passive:false})
+	</script>
+	<style type="text/css">
+
+		body {
+			margin:0;
+		}
+
+		#wrap ,#wrap1 {
+			height:5rem;
+			position:relative;
+		}
+
+		.list {
+			margin:0;
+			padding:0;
+			list-style:none;
+			/*width:1000%;	*/
+			position: absolute;
+			left:0;
+			top:0;
+		}
+
+		.list li {
+			width:15rem;
+			float:left;
+
+		}
+		.list img {
+			width:15rem;
+			display:block;
+		}
+
+		nav {
+			position: absolute;
+			width:100%;
+			bottom:0px;
+			text-align: center;
+		}
+
+		nav a {
+			display:inline-block;
+			background-color: red;
+			width:.5rem;
+			height:.5rem;
+			border-radius: 50%;
+		}
+		
+		.active {
+			background-color: white;
+		}
+	</style>
+</head>
+<body>
+	<div id="wrap">
+		<ul class="list">
+			<!-- <li><img src="aiqing.png" /></li>
+			<li><img src="donghua.png" /></li>
+			<li><img src="dongzuo.png" /></li>
+			<li><img src="kehuan.png" /></li>
+			<li><img src="xiju.png" /></li>
+			<li><img src="aiqing.png" /></li>
+			<li><img src="donghua.png" /></li>
+			<li><img src="dongzuo.png" /></li>
+			<li><img src="kehuan.png" /></li>
+			<li><img src="xiju.png" /></li> -->
+		</ul>
+		<nav>
+			<!-- <a class="active" href="javascript:;"></a>
+			<a href="javascript:;"></a>
+			<a href="javascript:;"></a>
+			<a href="javascript:;"></a>
+			<a href="javascript:;"></a> -->
+		</nav>
+	</div>
+
+	<div id="wrap1">
+		<ul class="list">
+			<!-- <li><img src="aiqing.png" /></li>
+			<li><img src="donghua.png" /></li>
+			<li><img src="dongzuo.png" /></li>
+			
+			<li><img src="aiqing.png" /></li>
+			<li><img src="donghua.png" /></li>
+			<li><img src="dongzuo.png" /></li> -->
+			
+		</ul>
+		<nav>
+			<!-- <a class="active" href="javascript:;"></a>
+			<a href="javascript:;"></a>
+			<a href="javascript:;"></a> -->
+			
+		</nav>
+	</div>
+
+<script type="text/javascript">
+	/*
+	轮播图思路：
+	将原本的图片复制一遍，组成两组图片，
+	当在第一张图片上按下时，
+	.list 的left值跳到第二组第一张图片的offsetleft值那里即 urlArr.len那张图片那里，
+	当滑到第二组最后一张(urlArr.length * 2 - 1)时，.list的left值跳到第一组的最后一张那里，即urlArr.len-1那张图片那里
+
+
+
+
+	*/
+
+
+	/*let list = document.querySelector(".list"),
+		wrap = document.querySelector("#wrap"),
+		aList = document.querySelectorAll("a"),
+		disX = 0,//手指移动距离
+		listLeft = 0,//list的offsetLeft值
+		len = list.children.length,
+		wWidth = wrap.clientWidth,
+		n = aList.length,
+		lastIndex = 0;
+
+	list.addEventListener("touchstart",start);
+	list.addEventListener("touchmove",move);
+	list.addEventListener("touchend",end);
+
+	function start(ev){
+		
+		disX = ev.changedTouches[0].pageX;	
+
+		this.style.transition = "";
+
+		let index = - Math.round( this.offsetLeft / wWidth );
+
+		switch(index){
+			case 0:
+				index = len/2
+				break;
+			case len-1:
+				index = len/2-1;
+				break;
+		}
+		
+		this.style.left = - index * wWidth + "px";
+		listLeft = this.offsetLeft;
+	}
+
+	function move(ev){
+		this.style.left = ev.changedTouches[0].pageX - disX + listLeft +"px";	
+	}
+
+	function end(ev){
+		let num = Math.round( list.offsetLeft/ wWidth);
+		this.style.left = num*wWidth +"px";
+		this.style.transition = ".5s";
+
+		aList[lastIndex].className = "";
+		aList[-num%n].className="active";
+		lastIndex = -num%n;
+	}*/
+
+
+	
+
+	class RollPic{
+		constructor(id,urlArr){
+
+			/*this.wrap = document.querySelector(`#${id}`);
+			this.list = this.wrap.querySelector(".list");
+			this.aList = this.wrap.querySelectorAll("a");
+			this.disX = 0;
+			this.listLeft = 0;
+			this.len = this.list.children.length;
+			this.wWidth = this.wrap.clientWidth;
+			this.n = this.aList.length;
+			this.lastIndex = 0;*/
+
+			Object.assign(this,{
+				wrap : document.querySelector(`#${id}`),
+				urlArr : urlArr,
+				disX : 0,
+				listLeft : 0,
+				lastIndex : 0	
+			})
+			Object.assign(this,{
+				list : this.wrap.querySelector(".list"),
+				aList : this.wrap.querySelectorAll("a"),
+				wWidth : this.wrap.clientWidth,
+				nav : this.wrap.querySelector("nav")
+			})
+
+			let listStr = "", aStr = "";
+			
+			urlArr.forEach((item,index)=>{
+				listStr += `<li><img src="${item}" /></li>`;
+				aStr += index==0 ? ` <a class="active" href="javascript:;"></a> ` : ` <a href="javascript:;"></a> `;
+
+			});
+
+			this.list.innerHTML = listStr + listStr;
+			this.nav.innerHTML = aStr;
+
+			Object.assign(this,{
+				aList : this.wrap.querySelectorAll("a")
+			})
+			
+			this.list.style.width = this.wWidth * urlArr.length * 2 +"px";
+
+			this.list.addEventListener("touchstart",(ev)=>{
+				this.start(ev);
+			});
+			this.list.addEventListener("touchmove",(ev)=>{
+				this.move(ev);
+			});
+			this.list.addEventListener("touchend",(ev)=>{
+				this.end(ev);
+			});
+				
+
+		}
+
+		start(ev){
+		
+			this.disX = ev.changedTouches[0].pageX;	
+
+			this.list.style.transition = "";
+
+			let index = - Math.round( this.list.offsetLeft / this.wWidth );
+
+			switch(index){
+				case 0:
+					index = this.urlArr.length 
+					break;
+				case this.urlArr.length * 2 - 1:
+					index = this.urlArr.length -1;
+					break;
+			}
+			
+			this.list.style.left = - index * this.wWidth + "px";
+			this.listLeft = this.list.offsetLeft;
+		}
+
+		move(ev){
+			this.list.style.left = ev.changedTouches[0].pageX - this.disX + this.listLeft +"px";	
+		}
+
+		end(ev){
+			let num = Math.round( this.list.offsetLeft/ this.wWidth);
+			this.list.style.left = num*this.wWidth +"px";
+			this.list.style.transition = ".5s";
+
+			this.aList[this.lastIndex].className = "";
+			this.aList[ - num % this.urlArr.length ].className="active";
+			this.lastIndex = - num % this.urlArr.length;
+		}
+	}
+	
+	const urlArr = ["aiqing.png","donghua.png","dongzuo.png","kehuan.png","xiju.png"];
+	const roll = new RollPic("wrap",urlArr);
+	
+	const urlArr1 = ["dongzuo.png","kehuan.png","xiju.png"];
+	const roll1 = new RollPic("wrap1",urlArr1);
+
+	
+</script>
+</body>
+</html>

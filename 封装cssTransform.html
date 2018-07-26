@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,user-scalable=no" >
+	<title>封装cssTransform</title>
+	<style>
+		#box {
+			width:100px;
+			height:100px;
+			padding:100px;
+			border:1px solid #000;
+			margin:auto;
+			perspective: 200;
+			-webkit-perspective: 200;
+		}
+
+		#div {
+			width:100px;
+			height:100px;
+			background-color: pink;
+		}
+
+		
+		
+
+	</style>
+</head>
+<body>
+	<div id="box">
+		<div id="div">
+		</div>
+	</div>
+	
+
+	<script>
+		document.addEventListener("touchstart",ev=>{
+			ev.preventDefault();
+		},{passive:false});
+
+		let box = document.querySelector("#box");
+		let div = document.querySelector("#div");
+		
+		
+		function cssTransform(element,attr,val){
+			/*
+			rotate 0 deg 
+			skew  0 deg
+			translate 0 px
+			scale 1 
+
+			*/
+			element.transform = element.transform || {};
+
+			if(typeof val === "undefined"){
+				//获取transform下属性attr的值
+
+				if(typeof element.transform[attr] === "undefined"){
+					//没有通过此函数设置过transform值
+
+					switch(attr){
+						case "scale":
+						case "scaleX":
+						case "scaleY":
+						case "scaleZ":
+							element.transform[attr] = 100;
+							break;
+						default:
+							element.transform[attr] = 0;	
+
+					}
+				}
+
+				return element.transform[attr];
+
+			}else{
+				//设置transform下属性attr的值
+
+				element.transform[attr] = val;//同一属性，后者会覆盖前者
+
+				let transformVal = "";
+
+				for(s in element.transform){
+					
+					switch(s){
+						case "scale":
+						case "scaleX":
+						case "scaleY":
+						case "scaleZ":
+							transformVal += ` ${s}(${element.transform[s]/100})`;//将scale值转换成100以上的值防止浮点数带来的误差
+							break;
+						case "skew":
+						case "skewX":
+						case "skewY":
+						case "rotate":
+						case "rotateX":
+						case "rotateY":
+						case "rotateZ":
+							transformVal += ` ${s}(${element.transform[s]}deg)`;
+							break;
+						default:
+						//translate
+							transformVal += ` ${s}(${element.transform[s]}px)`;
+					}
+				}
+
+				element.style.WebkitTransform = element.style.transform = transformVal;
+			}
+			
+		}
+		
+		cssTransform(div,"rotateX",35)
+		cssTransform(div,"rotateX",10)
+
+	</script>
+</body>
+</html>

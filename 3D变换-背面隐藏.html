@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,user-scalable=no" >
+	<title>3D变换1</title>
+	<style>
+
+		#box {
+			width:100px;
+			height:100px;
+			padding:100px;
+			border:1px solid #000;
+			margin:auto;
+			-webkit-perspective:1000;
+			perspective: 1000;
+		}
+
+		#div {
+			width:100px;
+			height:100px;
+			transition:1s;
+			position: relative;
+			transform-style: preserve-3d;
+			-webkit-transform-style:preserve-3d;
+		}
+
+		#div span {
+			width:100px;
+			height:100px;
+			left:0;
+			top:0;
+			position:absolute;
+			color:#fff;
+			font-size: 50px;
+			text-align: center;
+			line-height: 100px;
+			backface-visibility: hidden;
+			-webkit-backface-visibility: hidden;
+			transform-style: preserve-3d;
+			-webkit-transform-style: preserve-3d;
+		}
+	
+		#div span:nth-of-type(1) {
+			background-color: red;
+		}
+		
+		#div span:nth-of-type(2) {
+			background-color: green;
+			transform: rotateY(180deg);
+			-webkit-transform: rotateY(180deg);
+		}
+
+		#div em {
+			display: block;
+			text-align: center;
+			line-height: 100px;
+			font-style: normal;
+			-webkit-transform:translateZ(20px);
+			transform:translateZ(20px);
+		}
+		
+
+	</style>
+</head>
+<body>
+	<div id="box">
+		<div id="div">
+			<span><em>正</em></span>
+			<span><em>反</em></span>
+		</div>
+	</div>
+	
+
+	<script>
+		document.addEventListener("touchstart",ev=>{
+			ev.preventDefault();
+		},{passive:false});
+
+		let box = document.querySelector("#box");
+		let div = document.querySelector("#div");
+		
+		let span = box.querySelectorAll("span");
+
+		div.addEventListener("touchend",()=>{
+			div.style.WebkitTransform = div.style.transform = "rotateY(180deg)";
+		})
+
+		
+		/*
+		transform-style:flat/preserve-3d;元素在做3D变换的时候，子元素是否保留3D变换效果;
+		backface-visibility: hidden; 元素背面隐藏
+		transform:rotate/translate/skew/scale;
+		perspective: 100;景深
+		perspective-origin:top/bottoml/center/right/left;景深原点
+
+
+		matrix 矩阵
+
+
+
+		*/
+
+	</script>
+</body>
+</html>

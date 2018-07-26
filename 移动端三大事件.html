@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,user-scalable=no" />
+	<title>移动端三大事件</title>
+	<style type="text/css">
+		div {
+			width:200px;
+			height:200px;
+			background-color: pink;
+		}
+	</style>
+</head>
+<body>
+	<div></div>
+	<script type="text/javascript">
+
+		let div=document.querySelectorAll("div");
+		let i=0;
+
+		let time1=0;
+		let time2=0;
+
+		div[0].addEventListener("touchstart",start);
+		// div[0].addEventListener("touchmove",move);
+		// div[0].addEventListener("touchend",end);
+
+		div[0].addEventListener("click",click);
+
+		
+
+		function start(){
+			console.log("手指按下");
+			time1=new Date().getTime();
+			
+		}
+
+		function move(){
+			console.log(`手指移动${++i}`);
+		}
+
+		function end(){
+			console.log("手指抬起");
+		}
+
+		function click(){
+			console.log("鼠标点击");
+			time2=new Date().getTime();
+			
+			console.log(time2-time1);
+		}
+	</script>
+</body>
+</html>

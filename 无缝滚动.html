@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,user-scalable=no">
+	<title>无缝滚动</title>
+	<script type="text/javascript">
+		let html=document.documentElement;
+		html.style.fontSize = html.clientWidth/15 + "px";
+		document.addEventListener("touchstart",(ev)=>{
+			ev.preventDefault();
+		},{passive:false})
+	</script>
+	<style type="text/css">
+
+		body {
+			margin:0;
+		}
+
+		#wrap {
+			height:5rem;
+			position:relative;
+		}
+
+		.list {
+			margin:0;
+			padding:0;
+			list-style:none;
+			width:1000%;	
+			position: absolute;
+			left:0;
+			top:0;
+		}
+
+		.list li {
+			width:15rem;
+			float:left;
+
+		}
+		.list img {
+			width:15rem;
+			display:block;
+		}
+
+		nav {
+			position: absolute;
+			width:100%;
+			bottom:0px;
+			text-align: center;
+		}
+
+		nav a {
+			display:inline-block;
+			background-color: red;
+			width:.5rem;
+			height:.5rem;
+			border-radius: 50%;
+		}
+		
+		.active {
+			background-color: white;
+		}
+	</style>
+</head>
+<body>
+	<div id="wrap">
+		<ul class="list">
+			<li><img src="aiqing.png" /></li>
+			<li><img src="donghua.png" /></li>
+			<li><img src="dongzuo.png" /></li>
+			<li><img src="kehuan.png" /></li>
+			<li><img src="xiju.png" /></li>
+			<li><img src="aiqing.png" /></li>
+			<li><img src="donghua.png" /></li>
+			<li><img src="dongzuo.png" /></li>
+			<li><img src="kehuan.png" /></li>
+			<li><img src="xiju.png" /></li>
+		</ul>
+		<nav>
+			<a class="active" href="javascript:;"></a>
+			<a href="javascript:;"></a>
+			<a href="javascript:;"></a>
+			<a href="javascript:;"></a>
+			<a href="javascript:;"></a>
+		</nav>
+	</div>
+
+<script type="text/javascript">
+	let list = document.querySelector(".list"),
+		wrap = document.querySelector("#wrap"),
+		aList = document.querySelectorAll("a"),
+		disX = 0,//手指移动距离
+		listLeft = 0,//list的offsetLeft值
+		len = list.children.length,
+		wWidth = wrap.clientWidth,
+		n = aList.length,
+		lastIndex = 0;
+
+	list.addEventListener("touchstart",start);
+	list.addEventListener("touchmove",move);
+	list.addEventListener("touchend",end);
+
+	function start(ev){
+		
+		disX = ev.changedTouches[0].pageX;	
+
+		this.style.transition = "";
+
+		let index = - Math.round( this.offsetLeft / wWidth );
+
+		switch(index){
+			case 0:
+				index = len/2
+				break;
+			case len-1:
+				index = len/2-1;
+				break;
+		}
+		
+		this.style.left = - index * wWidth + "px";
+		listLeft = this.offsetLeft;
+	}
+
+	function move(ev){
+		this.style.left = ev.changedTouches[0].pageX - disX + listLeft +"px";	
+	}
+
+	function end(ev){
+		let num = Math.round( list.offsetLeft/ wWidth);
+		this.style.left = num*wWidth +"px";
+		this.style.transition = ".5s";
+
+		aList[lastIndex].className = "";
+		aList[-num%n].className="active";
+		lastIndex = -num%n;
+	}
+
+</script>
+</body>
+</html>

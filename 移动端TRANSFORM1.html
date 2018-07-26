@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,user-scalable=no" > 
+	<title>移动端TRANSFORM1</title>
+	<style>
+		#wrap {
+			width:100px;
+			height:100px;
+			padding:100px;
+			border:1px solid #000;
+			position: relative;
+		}
+		.div {
+			width:100px;
+			height:100px;
+			background-color: pink;
+			transition: 2s;
+			position:absolute;
+			transform-origin:center top;
+		}
+	</style>
+</head>
+<body>
+	<div id="wrap">
+		<div class="div"></div>
+		
+	</div>
+
+	<script type="text/javascript">
+		let div = document.querySelector(".div");
+
+		div.addEventListener("touchstart",()=>{
+			div.style.webkitTransform = div.style.transform = "rotate(360deg)";
+		})
+
+		
+		
+		
+	</script>
+</body>
+</html>

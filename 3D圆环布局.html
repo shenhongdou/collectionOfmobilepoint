@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,user-scalable=no">
+	<title>3D圆环布局</title>
+	<style>
+		body {
+			background:#000;
+		}
+		#box {
+			width:50px;
+			height:50px;
+			margin:200px auto;
+			perspective: 800px;
+			-webkit-perspective:800px;
+		}
+		#div {
+			position: relative;			
+			width:50px;
+			height:50px;
+			transform-style: preserve-3d;
+			-webkit-transform-style:preserve-3d;
+			transition: 3s;	
+			transform-origin: center center -76.94208842938131px;	
+			-webkit-transform-origin: center center -76.94208842938131px;		
+		}
+		#div div {
+			position: absolute;
+			width:50px;
+			height:50px;
+			left:0;
+			top:50px;
+			transform-style: preserve-3d;
+			-webkit-transform-style:preserve-3d;
+			transform-origin:top;
+			-webkit-transform-origin:top;
+			transform:rotateX(-36deg);
+			-webkit-transform:rotateX(-36deg);
+			
+		}
+		#div>div{
+			top:0;
+			-webkit-transform: rotateX(0deg);
+			transform: rotateX(0deg);
+		}
+		#div span{			
+			width:100%;
+			height:100%;
+			display: block;
+			color:#ccc;
+			font-size:30px;
+			background:#fff;
+			border-radius:15px;
+			text-align: center;
+			line-height: 50px;
+			border:1px solid #ddd;
+			box-sizing: border-box;
+		}
+
+		#box:hover #div{
+			transform:rotateX(360deg);
+		}
+	</style>
+</head>
+<body>
+
+	<div id="box">
+		<div id="div">
+			<!-- <div>
+				<span>1</span>
+				<div>
+					<span>2</span>
+					<div>
+						<span>3</span>
+					</div>
+				</div>
+			</div> -->
+		</div>
+		
+	</div>
+	<script>
+		var div = document.querySelector('#div');
+		var str='';
+		for(var i=0;i<=9;i++){
+			str = `<div>
+						<span style="">${9-i}</span>
+						${str}
+					</div>`
+		}
+		div.innerHTML = str;
+console.log(Math.tan(72*Math.PI/180)*25);
+
+/* 
+X5内核浏览器 UC浏览器强制横竖屏，全屏显示
+
+-webkit-tap-highlight-color:rgba(0,0,0,0);  a input button点击高亮
+-webkit-appearance:none;border-radius:0;按钮圆角 input button
+-webkit-user-select：none;禁止选中
+name="format-detection" content="telephone=no,email=no"禁止识别邮箱，电话号码
+<a href="tel:电话号码" ></a> <a href="mailto:邮箱地址" ></a>
+font boosting 一段文字没有设置高度，有可能会出现这段文字的字体比正常字体大
+
+inital-scalable,minimum-scalable,maxmum-scalable=targetWidth/deviceWidth;适配
+
+IOS下overflow不起作用，position:relative;
+
+
+
+rem:
+let html = document.documentElement;
+let hWidth = html.getBoundingClientRect().width;
+html.style.fontSize = hWidth/15 + 'px';
+对于750PX的设计图 1rem == 50px 15rem == 750px; 
+
+
+*/
+	</script>
+</body>
+</html>

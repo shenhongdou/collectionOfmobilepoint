@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,user-scalable=no" >
+	<title>Document</title>
+	<style>
+		html,body{
+			margin:0;
+			height:100%;
+			overflow: hidden;
+			position: relative;
+		}
+		body {
+			position:relative;
+		}
+		#wrap {
+			height:100%;
+		}
+		#header, #footer {
+			position: absolute;
+			left:0;
+			background:#000;
+			color:#fff;
+			height:2rem;
+			width:100%;
+			line-height: 2rem;
+			text-align: center;
+			opacity: 0.5;
+		}
+		#header {
+			top:0;
+		}
+		#footer {
+			bottom:0;
+		}
+		#section {
+			overflow: hidden;
+			position: absolute;
+			top:2rem;
+			bottom:2rem;
+			left:0;
+			right:0;
+			overflow: hidden;
+			height:40%;
+		}
+		#section1 {
+			overflow: hidden;
+			position: absolute;
+			bottom:2rem;
+			left:0;
+			right:0;
+			overflow: hidden;
+			height:40%;
+		}
+		
+		ul {
+			margin:0;
+			padding:0;
+			list-style:none;
+		}
+		li {
+			height:1.5rem;
+			line-height: 1.5rem;
+			border-bottom:1px solid #ccc;
+			text-indent: 1em;
+			font-size:0.9rem;
+		}
+
+
+	</style>
+	<script>
+		window.onload=function(){
+			let html = document.documentElement;
+			let hWidth = html.getBoundingClientRect().width;
+			html.style.fontSize = hWidth / 15 + 'px';
+
+			window.addEventListener('touchstart',ev=>{
+				ev.preventDefault();
+			},{passive:false})
+
+		}
+	</script>
+	<script src="m.Tween.js"></script>
+</head>
+<body>
+	<div id="wrap">
+		<header id="header">页面头部</header>
+		<section id="section"></section>
+		<section id="section1"></section>
+		<footer id="footer">页面底部</footer>
+	</div>
+
+	<script>
+
+		
+
+		class Drag{
+
+			constructor(id,callback){
+
+				this.elt = document.querySelector(`#${id}`);
+				this.list = null;
+				this.callback = callback;
+				this.init();
+
+			}
+
+			init(){
+
+				// let len = 100;
+				// let str='<ul class="list">';
+				// for(let i=0;i<len;i++){
+				// 	str += `<li>这是第${i}个li</li>`;
+				// }
+				// this.elt.innerHTML = str + '</ul>';
+				// this.list = this.elt.querySelector('.list');
+
+				this.callback && this.callback();
+
+				this.move(this.list);
+				
+			}
+
+			move(obj){
+
+				let startY = 0,disY = 0,lastY = 0,lastT = 0,disT = 0;
+
+				//3D硬件加速
+				cssTransform(obj,'translateZ',0.01);
+
+				obj.addEventListener('touchstart',ev => {
+					startY = ev.changedTouches[0].pageY;
+					lastY = cssTransform(obj,'translateY');
+					lastT = new Date().getTime();
+				})
+
+				obj.addEventListener('touchmove',ev =>{
+
+					let nowY = ev.changedTouches[0].pageY;
+					disY = nowY - startY;
+					let moveToY = lastY + disY;
+
+					let nowT = new Date().getTime();
+					disT = nowT - lastT;
+					lastT = nowT;			
+					
+					cssTransform(obj,'translateY',moveToY);
+					
+				})
+
+				obj.addEventListener('touchend',ev =>{
+					
+					let speed = Math.round( disY / disT );
+					let target = Math.round(speed * 10 + cssTransform(obj,'translateY'));					
+					
+					let minH = this.elt.offsetHeight - obj.offsetHeight;
+					let type = "easeOut";				
+
+					if(target > 0){
+						//滑到头部
+						target = 0
+						type = "backOut";
+					}else if(target < minH){
+						//滑到底部
+						target = minH;
+						type = "backOut";
+					}
+
+					//抬起后的缓冲运动
+					MTween({
+						el:obj,
+						target:{translateY:target},
+						time:Math.round(Math.abs(target - css(obj,"translateY"))*2) ,
+						type,
+					})
+					
+				})
+			}
+		}
+
+
+		function cssTransform(element,attr,val){
+			/*
+			rotate 0 deg 
+			skew  0 deg
+			translate 0 px
+			scale 1 
+
+			*/
+			element.transform = element.transform || {};
+
+			if(typeof val === "undefined"){
+				//获取transform下属性attr的值
+
+				if(typeof element.transform[attr] === "undefined"){
+					//没有通过此函数设置过transform值
+
+					switch(attr){
+						case "scale":
+						case "scaleX":
+						case "scaleY":
+						case "scaleZ":
+							element.transform[attr] = 100;
+							break;
+						default:
+							element.transform[attr] = 0;	
+
+					}
+				}
+
+				return element.transform[attr];
+
+			}else{
+				//设置transform下属性attr的值
+
+				element.transform[attr] = val;//同一属性，后者会覆盖前者
+
+				let transformVal = "";
+
+				for(s in element.transform){
+					
+					switch(s){
+						case "scale":
+						case "scaleX":
+						case "scaleY":
+						case "scaleZ":
+							transformVal += ` ${s}(${element.transform[s]/100})`;//将scale值转换成100以上的值防止浮点数带来的误差
+							break;
+						case "skew":
+						case "skewX":
+						case "skewY":
+						case "rotate":
+						case "rotateX":
+						case "rotateY":
+						case "rotateZ":
+							transformVal += ` ${s}(${element.transform[s]}deg)`;
+							break;
+						default:
+						//translate
+							transformVal += ` ${s}(${element.transform[s]}px)`;
+					}
+				}
+
+				element.style.WebkitTransform = element.style.transform = transformVal;
+			}
+			
+		}
+
+		new Drag('section',function(){
+			let len = 100;
+			let str='<ul class="list">';
+			for(let i=0;i<len;i++){
+				str += `<li>这是第${i}个li</li>`;
+			}
+			this.elt.innerHTML = str + '</ul>';
+			this.list = this.elt.querySelector('.list');
+		});
+		new Drag('section1',function(){
+			let len = 50;
+			let str='<ul class="list">';
+			for(let i=0;i<len;i++){
+				str += `<li>这是第${i}个li1</li>`;
+			}
+			this.elt.innerHTML = str + '</ul>';
+			this.list = this.elt.querySelector('.list');
+		});
+	</script>
+</body>
+</html>

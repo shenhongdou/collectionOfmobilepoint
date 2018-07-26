@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,user-scalable=no" />
+	<title>移动端点透</title>
+	<style type="text/css">
+		
+		
+
+		a {
+			position: absolute;
+		}
+
+		#div1 {
+			width:100px;
+			height:100px;
+			background-color:pink;
+			position:absolute;
+			opacity: 0.5;
+		}
+	</style>
+</head>
+<body>
+
+	
+	<a href="https://www.baidu.com">aaaaaaaaa</a>
+	<div id="div1"></div>
+	
+	<script type="text/javascript">
+	
+		const div1=document.querySelector("#div1");
+		
+		div1.addEventListener("touchstart",()=>div1.style.display="none");
+		
+		document.addEventListener("touchstart", ev=>ev.preventDefault(), { passive: false });
+
+	
+		
+
+		
+
+	
+
+	</script>
+</body>		
+</html>

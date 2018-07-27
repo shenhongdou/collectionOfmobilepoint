@@ -1,0 +1,4 @@
+let html = document.documentElement;
+let hWidth = html.getBoundingClientRect().width;
+html.style.fontSize = hWidth/15 + 'px';
+对于750PX的设计图 1rem == 50px 15rem == 750px; 
